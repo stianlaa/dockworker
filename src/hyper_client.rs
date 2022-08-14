@@ -46,7 +46,7 @@ impl Response {
         let (tx, rx) = futures::channel::mpsc::unbounded();
 
         let handle = std::thread::spawn(move || {
-            let tokio_runtime = tokio::runtime::Builder::new_multi_thread()
+            let tokio_runtime = tokio::runtime::Builder::new_current_thread()
                 .enable_all()
                 .build()
                 .unwrap();
@@ -114,7 +114,7 @@ impl std::io::Read for Response {
                 futures::future::ready(false)
             });
 
-            let (_, _) = tokio::runtime::Builder::new_multi_thread()
+            let (_, _) = tokio::runtime::Builder::new_current_thread()
                 .enable_all()
                 .build()
                 .unwrap()
@@ -225,7 +225,7 @@ impl HyperClient {
             client,
             base,
             tokio_runtime: std::sync::Mutex::new(
-                tokio::runtime::Builder::new_multi_thread()
+                tokio::runtime::Builder::new_current_thread()
                     .enable_all()
                     .build()
                     .unwrap(),
