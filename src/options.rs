@@ -479,6 +479,7 @@ pub struct ContainerLogOptions {
     pub stdout: bool,
     pub stderr: bool,
     pub since: Option<i64>,
+    pub until: Option<i64>,
     pub timestamps: Option<bool>,
     pub tail: Option<i64>,
     pub follow: bool,
@@ -492,6 +493,9 @@ impl ContainerLogOptions {
         param.append_pair("follow", &self.follow.to_string());
         if let Some(since) = self.since {
             param.append_pair("since", &since.to_string());
+        }
+        if let Some(until) = self.until {
+            param.append_pair("until", &until.to_string());
         }
         if let Some(timestamps) = self.timestamps {
             param.append_pair("timestamps", &timestamps.to_string());
@@ -510,6 +514,7 @@ impl Default for ContainerLogOptions {
             stderr: true,
             follow: false,
             since: None,
+            until: None,
             timestamps: None,
             tail: None,
         }
